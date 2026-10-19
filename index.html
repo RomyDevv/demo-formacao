@@ -14,16 +14,28 @@
       --texto: #1F2933;
       --cinza: #5F6B7A;
       --branco: #FFFFFF;
+      --fundo: #FFFFFF;
+      --borda: #D9E2EC;
+    }
+    [data-tema="escuro"] {
+      --azul: #4F8FD6;
+      --azul-escuro: #DCE8F7;
+      --azul-claro: #16233A;
+      --texto: #E6ECF3;
+      --cinza: #A3AFBE;
+      --fundo: #0E1624;
+      --borda: #27354A;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Montserrat', system-ui, sans-serif;
       color: var(--texto);
-      background: var(--branco);
+      background: var(--fundo);
       line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
     }
     header {
-      background: var(--azul);
+      background: #175FAA;
       color: var(--branco);
       padding: 20px 24px;
     }
@@ -36,6 +48,18 @@
       color: var(--branco); text-decoration: none; font-weight: 600; margin-left: 20px; font-size: 0.95rem;
     }
     nav a:hover { text-decoration: underline; }
+    .alternar-tema {
+      margin-left: 20px;
+      background: transparent;
+      color: var(--branco);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font: inherit; font-weight: 600; font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .alternar-tema:hover { background: rgba(255, 255, 255, 0.15); }
     .heroi {
       background: var(--azul-claro);
       padding: 72px 24px;
@@ -60,13 +84,13 @@
     h2 { color: var(--azul); font-weight: 700; font-size: 1.5rem; margin-bottom: 24px; }
     .cartoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
     .cartao {
-      border: 1px solid #D9E2EC; border-top: 4px solid var(--azul);
+      border: 1px solid var(--borda); border-top: 4px solid var(--azul);
       border-radius: 8px; padding: 24px;
     }
     .cartao h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
     .cartao p { color: var(--cinza); font-size: 0.95rem; }
     footer {
-      border-top: 1px solid #D9E2EC;
+      border-top: 1px solid var(--borda);
       padding: 24px; text-align: center;
       color: var(--cinza); font-size: 0.85rem;
     }
@@ -76,6 +100,7 @@
     @media (max-width: 600px) {
       .barra { flex-direction: column; }
       nav a { margin: 0 10px; }
+      .alternar-tema { margin: 0 10px; }
     }
   </style>
 </head>
@@ -87,6 +112,7 @@
         <a href="#sobre">Sobre</a>
         <a href="#passos">Passos</a>
         <a href="https://github.com/RomyDevv/demo-formacao">Repositório</a>
+        <button class="alternar-tema" id="alternar-tema" type="button" aria-pressed="false">🌙 Modo escuro</button>
       </nav>
     </div>
   </header>
@@ -130,5 +156,31 @@
     <p>© 2026 JUNITEC · Júnior Empresa do Instituto Superior Técnico · Demo de formação</p>
     <p><a href="https://github.com/RomyDevv/demo-formacao">Ver código no GitHub</a></p>
   </footer>
+
+  <script>
+    (function () {
+      var raiz = document.documentElement;
+      var botao = document.getElementById('alternar-tema');
+      var guardado = null;
+      try { guardado = localStorage.getItem('tema'); } catch (e) {}
+      var escuro = guardado
+        ? guardado === 'escuro'
+        : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      function aplicar(ativo) {
+        if (ativo) { raiz.setAttribute('data-tema', 'escuro'); }
+        else { raiz.removeAttribute('data-tema'); }
+        botao.textContent = ativo ? '☀️ Modo claro' : '🌙 Modo escuro';
+        botao.setAttribute('aria-pressed', String(ativo));
+      }
+
+      aplicar(escuro);
+      botao.addEventListener('click', function () {
+        escuro = !escuro;
+        aplicar(escuro);
+        try { localStorage.setItem('tema', escuro ? 'escuro' : 'claro'); } catch (e) {}
+      });
+    })();
+  </script>
 </body>
 </html>
