@@ -89,6 +89,29 @@
     }
     .cartao h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
     .cartao p { color: var(--cinza); font-size: 0.95rem; }
+    .faq { display: grid; gap: 12px; }
+    .faq details {
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      background: var(--fundo);
+    }
+    .faq summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 16px 20px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: '+';
+      color: var(--azul);
+      font-size: 1.3rem; font-weight: 700; line-height: 1;
+      transition: transform 0.2s;
+    }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq details[open] summary { border-bottom: 1px solid var(--borda); }
+    .faq p { padding: 16px 20px; color: var(--cinza); font-size: 0.95rem; }
     footer {
       border-top: 1px solid var(--borda);
       padding: 24px; text-align: center;
@@ -148,6 +171,24 @@
           <h3>4. Issue</h3>
           <p>Registamos melhorias e fechamo-las com um PR que diz "Closes #".</p>
         </article>
+      </div>
+    </section>
+
+    <section id="faq" style="margin-top: 48px;">
+      <h2>Perguntas frequentes</h2>
+      <div class="faq">
+        <details>
+          <summary>Preciso de saber programar para participar?</summary>
+          <p>Não. A formação é sobre o fluxo de trabalho no GitHub: branches, pull requests, revisões e issues. Só vais editar ficheiros simples, como esta página.</p>
+        </details>
+        <details>
+          <summary>O que acontece quando faço merge de um pull request?</summary>
+          <p>A alteração entra na branch main e o GitHub Pages publica a nova versão do site automaticamente, normalmente em menos de um minuto.</p>
+        </details>
+        <details>
+          <summary>Como é que uma issue fecha sozinha?</summary>
+          <p>Basta o corpo do pull request terminar com "Closes #número". Quando o PR é unido à main, o GitHub fecha a issue por ti.</p>
+        </details>
       </div>
     </section>
   </main>
